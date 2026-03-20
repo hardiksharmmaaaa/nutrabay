@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screener | Nutrabay inspired</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-bullseye" style="color: #ff4b2b; font-size: 2.5rem;"></i>
+                <span>AI Resume Screener</span>
+            </div>
+            <div class="api-config">
+                <form id="api-form" onsubmit="return false;">
+                    <div class="input-group">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="api-key" placeholder="Enter Gemini API Key" autocomplete="current-password">
+                    </div>
+                </form>
+            </div>
+        </header>
+
+        <main>
+            <section class="config-section">
+                <div class="card jd-card">
+                    <h3><i class="fas fa-file-alt"></i> Job Description</h3>
+                    <textarea id="jd-text" placeholder="Paste the job description here..."></textarea>
+                </div>
+                <div class="card upload-card">
+                    <h3><i class="fas fa-cloud-upload-alt"></i> Upload Resumes</h3>
+                    <div id="drop-zone" class="drop-zone">
+                        <i class="fas fa-file-pdf fa-3x"></i>
+                        <p>Drag & drop resumes or <span>browse</span></p>
+                        <input type="file" id="file-input" multiple accept=".pdf,.docx" hidden>
+                    </div>
+                    <div id="file-list" class="file-list"></div>
+                </div>
+            </section>
+
+            <div class="actions">
+                <button id="analyze-btn" class="primary-btn">
+                    <i class="fas fa-rocket"></i> Run AI Screening
+                </button>
+            </div>
+
+            <section id="results-section" class="results-section hidden">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Screening Results</h2>
+                    <button id="download-csv" class="secondary-btn">
+                        <i class="fas fa-download"></i> Download CSV
+                    </button>
+                </div>
+                
+                <div class="table-container card">
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Score</th>
+                                <th>Recommendation</th>
+                                <th>Strengths</th>
+                                <th>Gaps</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body">
+                            <!-- Results will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 AI Resume Screener | Nutrabay Screening Assessment</p>
+        </footer>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content card">
+            <span class="close-btn">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
