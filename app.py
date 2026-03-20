@@ -18,8 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-TEMP_DIR = "/tmp/resume_analyser_uploads"
-os.makedirs(TEMP_DIR, exist_ok=True)
+TEMP_DIR = "/tmp"
+# os.makedirs is now handled inside the analyze function to be more robust
 
 @app.post("/analyze")
 async def analyze(
@@ -35,8 +35,12 @@ async def analyze(
         raise HTTPException(status_code=400, detail="No files uploaded")
 
     results = []
+    # Ensure a unique subfolder in /tmp if needed, or just use /tmp directly
     for file in files:
-        temp_path = os.path.join(TEMP_DIR, file.filename)
+        # Sanitize filename and use absolute path in /tmp
+        safe_filename = "".join([c for c in file.filename if c.isalnum() or c in "._-"]).strip()
+        temp_path = os.path.join(TEMP_DIR, safe_filename)
+        
         with open(temp_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
