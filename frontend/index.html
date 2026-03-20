@@ -26,31 +26,56 @@
         </header>
 
         <main>
-            <section class="config-section">
-                <div class="card jd-card">
-                    <h3><i class="fas fa-file-alt"></i> Job Description</h3>
-                    <textarea id="jd-text" placeholder="Paste the job description here..."></textarea>
-                </div>
-                <div class="card upload-card">
-                    <h3><i class="fas fa-cloud-upload-alt"></i> Upload Resumes</h3>
-                    <div id="drop-zone" class="drop-zone">
-                        <i class="fas fa-file-pdf fa-3x"></i>
-                        <p>Drag & drop resumes or <span>browse</span></p>
-                        <input type="file" id="file-input" multiple accept=".pdf,.docx" hidden>
+            <!-- View 1: Input & Upload -->
+            <section id="input-view" class="view">
+                <div class="config-section">
+                    <div class="card jd-card">
+                        <h3><i class="fas fa-file-alt"></i> Job Description</h3>
+                        <textarea id="jd-text" placeholder="Paste the job description here..."></textarea>
                     </div>
-                    <div id="file-list" class="file-list"></div>
+                    <div class="card upload-card">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> Upload Resumes</h3>
+                        <div id="drop-zone" class="drop-zone">
+                            <i class="fas fa-file-pdf fa-3x"></i>
+                            <p>Drag & drop resumes or <span>browse</span></p>
+                            <input type="file" id="file-input" multiple accept=".pdf,.docx" hidden>
+                        </div>
+                        <div id="file-list" class="file-list"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="analyze-btn" class="primary-btn">
+                        <i class="fas fa-rocket"></i> Run AI Screening
+                    </button>
                 </div>
             </section>
 
-            <div class="actions">
-                <button id="analyze-btn" class="primary-btn">
-                    <i class="fas fa-rocket"></i> Run AI Screening
-                </button>
-            </div>
+            <!-- View 2: Creative Loading Animation -->
+            <section id="loading-view" class="view hidden">
+                <div class="loading-container">
+                    <div class="resume-logo-container">
+                        <div class="paper-icon">
+                            <div class="paper-line"></div>
+                            <div class="paper-line"></div>
+                            <div class="paper-line"></div>
+                        </div>
+                        <div class="scanning-bar"></div>
+                    </div>
+                    <h2 class="loading-text">Analyzing Resumes...</h2>
+                    <p class="loading-subtext">Our AI is matching candidates to your Job Description.</p>
+                </div>
+            </section>
 
-            <section id="results-section" class="results-section hidden">
+            <!-- View 3: Results -->
+            <section id="results-view" class="view hidden">
                 <div class="section-header">
-                    <h2><i class="fas fa-chart-bar"></i> Screening Results</h2>
+                    <div class="results-title-group">
+                        <button id="back-btn" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Upload
+                        </button>
+                        <h2><i class="fas fa-chart-bar"></i> Screening Results</h2>
+                    </div>
                     <button id="download-csv" class="secondary-btn">
                         <i class="fas fa-download"></i> Download CSV
                     </button>
