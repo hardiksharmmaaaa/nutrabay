@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-TEMP_DIR = "temp_uploads"
+TEMP_DIR = "/tmp/resume_analyser_uploads"
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 @app.post("/analyze")
@@ -59,4 +59,5 @@ if os.path.exists(FRONTEND_DIR):
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 
 if __name__ == "__main__":
+    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

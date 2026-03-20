@@ -4,7 +4,6 @@ import google.generativeai as genai
 import json
 import os
 from typing import Dict, List, Any
-import pandas as pd
 from pydantic import BaseModel, Field
 
 # Pydantic model for structured output
