@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Views
+    const inputView = document.getElementById('input-view');
+    const loadingView = document.getElementById('loading-view');
+    const resultsView = document.getElementById('results-view');
+
+    // Controls
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const fileList = document.getElementById('file-list');
     const analyzeBtn = document.getElementById('analyze-btn');
-    const resultsSection = document.getElementById('results-section');
+    const backBtn = document.getElementById('back-btn');
     const resultsBody = document.getElementById('results-body');
     const apiKeyInput = document.getElementById('api-key');
     const jdText = document.getElementById('jd-text');
@@ -14,6 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let uploadedFiles = [];
     let currentResults = [];
+
+    // View Switcher
+    function showView(viewName) {
+        inputView.classList.add('hidden');
+        loadingView.classList.add('hidden');
+        resultsView.classList.add('hidden');
+
+        if (viewName === 'input') inputView.classList.remove('hidden');
+        if (viewName === 'loading') loadingView.classList.remove('hidden');
+        if (viewName === 'results') resultsView.classList.remove('hidden');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // Trigger file input on click
     dropZone.addEventListener('click', () => fileInput.click());
@@ -26,18 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle drag and drop
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
-        dropZone.style.borderColor = '#ff4b2b';
-        dropZone.style.background = 'rgba(255, 75, 43, 0.05)';
+        dropZone.style.borderColor = 'var(--primary-color)';
+        dropZone.style.background = 'rgba(37, 99, 235, 0.05)';
     });
 
     dropZone.addEventListener('dragleave', () => {
-        dropZone.style.borderColor = '#eaeaea';
+        dropZone.style.borderColor = 'var(--border-color)';
         dropZone.style.background = 'transparent';
     });
 
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
-        dropZone.style.borderColor = '#eaeaea';
+        dropZone.style.borderColor = 'var(--border-color)';
         dropZone.style.background = 'transparent';
         handleFiles(e.dataTransfer.files);
     });
@@ -45,8 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleFiles(files) {
         for (const file of files) {
             if (file.type === 'application/pdf' || file.name.endsWith('.docx')) {
-                uploadedFiles.push(file);
-                addFileToList(file);
+                // Prevent duplicates
+                if (!uploadedFiles.some(f => f.name === file.name)) {
+                    uploadedFiles.push(file);
+                    addFileToList(file);
+                }
             }
         }
     }
@@ -56,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.className = 'file-item';
         item.innerHTML = `
             <span><i class="fas fa-file"></i> ${file.name}</span>
-            <i class="fas fa-times" style="cursor:pointer; color:#ff4b2b" onclick="removeFile('${file.name}')"></i>
+            <i class="fas fa-times" style="cursor:pointer; color:var(--primary-color)" onclick="removeFile('${file.name}')"></i>
         `;
         fileList.appendChild(item);
     }
@@ -80,9 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!jd) return alert('Please enter the Job Description');
         if (uploadedFiles.length === 0) return alert('Please upload at least one resume');
 
-        // UI state: Loading
-        analyzeBtn.classList.add('btn-loading');
-        analyzeBtn.innerHTML = '<i class="fas fa-spinner"></i> Analyzing...';
+        // Switch to loading view
+        showView('loading');
 
         const formData = new FormData();
         formData.append('jd_text', jd);
@@ -102,17 +123,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             currentResults = data.results;
-            displayResults(currentResults);
+            
+            // Artificial delay to show the creative animation (optional, but requested "so user can wait")
+            setTimeout(() => {
+                displayResults(currentResults);
+                showView('results');
+            }, 2000);
+
         } catch (err) {
             alert(err.message);
-        } finally {
-            analyzeBtn.classList.remove('btn-loading');
-            analyzeBtn.innerHTML = '<i class="fas fa-rocket"></i> Run AI Screening';
+            showView('input');
         }
     });
 
+    // Back Button Logic
+    backBtn.addEventListener('click', () => {
+        showView('input');
+    });
+
     function displayResults(results) {
-        resultsSection.classList.remove('hidden');
         resultsBody.innerHTML = '';
 
         // Sort results by score desc
@@ -131,8 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             resultsBody.appendChild(row);
         });
-
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
     }
 
     window.showDetails = (index) => {
@@ -143,17 +170,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${res.candidate_name}</h2>
             <div style="margin: 20px 0; display:flex; align-items:center; gap:15px">
                 <span class="score-badge ${scoreClass}" style="font-size: 1.2rem; padding: 8px 16px">${res.score}% Match</span>
-                <span style="font-weight:600; color:#636e72">${res.recommendation}</span>
+                <span style="font-weight:600; color:var(--text-muted)">${res.recommendation}</span>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px">
                 <div>
-                    <h4 style="color:#2d3436; margin-bottom:10px">💪 Strengths</h4>
+                    <h4 style="color:var(--text-color); margin-bottom:10px">💪 Strengths</h4>
                     <ul style="padding-left:20px; font-size:0.95rem">
                         ${res.strengths.map(s => `<li>${s}</li>`).join('')}
                     </ul>
                 </div>
                 <div>
-                    <h4 style="color:#2d3436; margin-bottom:10px">⚠️ Gaps</h4>
+                    <h4 style="color:var(--text-color); margin-bottom:10px">⚠️ Gaps</h4>
                     <ul style="padding-left:20px; font-size:0.95rem">
                         ${res.gaps.map(g => `<li>${g}</li>`).join('')}
                     </ul>
