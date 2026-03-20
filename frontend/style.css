@@ -1,13 +1,13 @@
 :root {
-    --primary-color: #ff4b2b;
-    --primary-hover: #ff2d05;
-    --secondary-color: #333;
-    --bg-color: #f8f9fa;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #1e293b;
+    --bg-color: #f8fafc;
     --card-bg: #fff;
-    --text-color: #2d3436;
-    --text-muted: #636e72;
-    --border-color: #eaeaea;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --radius: 12px;
 }
 
@@ -84,7 +84,7 @@ header {
 
 .input-group input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(255, 75, 43, 0.1);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .card {
@@ -143,7 +143,7 @@ textarea:focus {
 
 .drop-zone:hover {
     border-color: var(--primary-color);
-    background: rgba(255, 75, 43, 0.02);
+    background: rgba(37, 99, 235, 0.02);
 }
 
 .drop-zone i {
@@ -193,7 +193,7 @@ textarea:focus {
 .primary-btn:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(255, 75, 43, 0.2);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
 }
 
 .secondary-btn {
