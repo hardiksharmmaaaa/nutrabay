@@ -30,15 +30,20 @@ def extract_text_from_docx(file_path):
     return text.strip()
 
 def extract_text(file_path):
-    ext = os.path.splitext(file_path)[1].lower()
-    if ext == '.pdf':
-        return extract_text_from_pdf(file_path)
-    elif ext == '.docx':
-        return extract_text_from_docx(file_path)
-    else:
+    try:
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext == '.pdf':
+            return extract_text_from_pdf(file_path)
+        elif ext == '.docx':
+            return extract_text_from_docx(file_path)
+        else:
+            return ""
+    except Exception as e:
+        print(f"Error extracting text from {file_path}: {e}")
         return ""
 
 def analyze_resume(jd_text: str, resume_text: str, api_key: str) -> Dict[str, Any]:
+    # Updated to Gemini 2.5 Flash for March 2026 compatibility
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-2.5-flash')
     

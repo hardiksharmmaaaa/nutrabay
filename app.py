@@ -41,14 +41,33 @@ async def analyze(
         safe_filename = "".join([c for c in file.filename if c.isalnum() or c in "._-"]).strip()
         temp_path = os.path.join(TEMP_DIR, safe_filename)
         
-        with open(temp_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        
         try:
+            with open(temp_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            
             resume_text = extract_text(temp_path)
+            if not resume_text:
+                results.append({
+                    "candidate_name": os.path.splitext(file.filename)[0],
+                    "score": 0,
+                    "strengths": ["Failed to extract text"],
+                    "gaps": ["File may be unreadable or empty"],
+                    "recommendation": "Error"
+                })
+                continue
+
             analysis = analyze_resume(jd_text, resume_text, api_key)
             analysis['candidate_name'] = os.path.splitext(file.filename)[0]
             results.append(analysis)
+        except Exception as e:
+            print(f"Failed to process {file.filename}: {e}")
+            results.append({
+                "candidate_name": os.path.splitext(file.filename)[0],
+                "score": 0,
+                "strengths": ["Processing error"],
+                "gaps": [str(e)],
+                "recommendation": "Error"
+            })
         finally:
             if os.path.exists(temp_path):
                 os.remove(temp_path)
