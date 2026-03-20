@@ -15,16 +15,17 @@ An intelligent, professional resume screening application that leverages the pow
 
 ## 📸 Snapshots
 
-### 1. Main Dashboard
-![Main Dashboard](https://via.placeholder.com/800x450?text=Main+Dashboard+View)
+### 1. Main Dashboard <img width="1345" height="706" alt="Screenshot 2026-03-20 at 21 44 47" src="https://github.com/user-attachments/assets/cc69fa62-93e4-43d6-93bb-f4d9297c772d" />
 *Clean, minimalistic input section for JD and file uploads.*
 
 ### 2. Scanning Animation
-![Scanning Animation](https://via.placeholder.com/800x450?text=Creative+Loading+Animation)
+<img width="1241" height="630" alt="Screenshot 2026-03-20 at 21 45 40" src="https://github.com/user-attachments/assets/d86c5aaf-8365-4faa-ba7f-a1950e0d8d85" />
+
 *Interactive UI showing real-time AI processing status.*
 
 ### 3. Screened Results
-![Screened Results](https://via.placeholder.com/800x450?text=Screening+Results+Dashboard)
+<img width="1286" height="679" alt="Screenshot 2026-03-20 at 21 46 49" src="https://github.com/user-attachments/assets/55de0adc-ba54-42d6-a2aa-db595a5d77f7" />
+
 *Dynamic table with sorted scores and candidate comparisons.*
 
 ## 🛠️ Tech Stack
